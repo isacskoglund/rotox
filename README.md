@@ -195,3 +195,7 @@ You can run multiple probes, each with different `SECRET` and `PORT` values.
 ## Disclaimer
 
 This is a hobby project. No guarantees are made regarding stability, performance, or ongoing development. Contributions welcome.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
