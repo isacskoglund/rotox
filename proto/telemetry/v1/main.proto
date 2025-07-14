@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package telemetry.v1;
+
+message TransferSubscribeRequest {}
+
+message TransferSubscribeResponse {
+  repeated TransferEvent events = 1;
+}
+
+message TransferEvent {
+  string connection_id = 1;
+  // Unix epoch ns
+  uint64 started_at = 2;
+  // Unix epoch ns
+  uint64 finished_at = 3;
+  uint64 bytes_count = 4;
+}
+
+message ConnectionSubscribeRequest {}
+
+message ConnectionSubscribeResponse {
+  repeated ConnectionEvent events = 1;
+}
+
+message ConnectionEvent {
+  string connection_id = 1;
+  string client_address = 2;
+  string target_address = 3;
+  // Unix epoch ns
+  uint64 opened_at = 4;
+  // Unix epoch ns
+  // 0 indicates yet to be closed
+  uint64 closed_at = 5;
+}
+
+service TelemetryService {
+  rpc TransferSubscribe(TransferSubscribeRequest) returns (stream TransferSubscribeResponse);
+  rpc ConnectionSubscribe(ConnectionSubscribeRequest) returns (stream ConnectionSubscribeResponse);
+}

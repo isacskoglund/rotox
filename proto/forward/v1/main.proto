@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package forward.v1;
+
+message ForwardRequest {
+  oneof request {
+    DialRequest dial_request = 1;
+    TransferRequest transfer_request = 2;
+  }
+}
+
+message DialRequest {
+  string destination = 1;
+}
+
+message TransferRequest {
+  bytes data = 1;
+}
+
+message ForwardResponse {
+  oneof response {
+    DialResponse dial_response = 1;
+    TransferResponse transfer_response = 2;
+  }
+}
+
+message DialResponse {
+  enum Code {
+    // CODE_UNSPECIFIED indicates "OK".
+    // This particular suffix is by default required in buf's standard linting setting.
+    CODE_UNSPECIFIED = 0;
+    CODE_FAILED_TO_RESOLVE_HOST = 1;
+    CODE_HOST_UNREACHABLE = 2;
+  }
+  Code code = 1;
+}
+
+message TransferResponse {
+  bytes data = 1;
+}
+
+service ForwardService {
+  rpc Forward(stream ForwardRequest) returns (stream ForwardResponse);
+}
